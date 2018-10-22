@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3480232217E923400A0C69D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480231217E923400A0C69D /* AppDelegate.swift */; };
-		B3480234217E923400A0C69D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480233217E923400A0C69D /* ViewController.swift */; };
+		B3480234217E923400A0C69D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480233217E923400A0C69D /* MainViewController.swift */; };
 		B3480237217E923400A0C69D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3480235217E923400A0C69D /* Main.storyboard */; };
 		B348023A217E923400A0C69D /* iProSense.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B3480238217E923400A0C69D /* iProSense.xcdatamodeld */; };
 		B348023C217E923500A0C69D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B348023B217E923500A0C69D /* Assets.xcassets */; };
@@ -18,7 +18,7 @@
 /* Begin PBXFileReference section */
 		B348022E217E923400A0C69D /* iProSense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iProSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3480231217E923400A0C69D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B3480233217E923400A0C69D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B3480233217E923400A0C69D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B3480236217E923400A0C69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B3480239217E923400A0C69D /* iProSense.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iProSense.xcdatamodel; sourceTree = "<group>"; };
 		B348023B217E923500A0C69D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				B3480231217E923400A0C69D /* AppDelegate.swift */,
-				B3480233217E923400A0C69D /* ViewController.swift */,
+				B3480233217E923400A0C69D /* MainViewController.swift */,
 				B3480235217E923400A0C69D /* Main.storyboard */,
 				B348023B217E923500A0C69D /* Assets.xcassets */,
 				B348023D217E923500A0C69D /* LaunchScreen.storyboard */,
@@ -139,7 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B348023A217E923400A0C69D /* iProSense.xcdatamodeld in Sources */,
-				B3480234217E923400A0C69D /* ViewController.swift in Sources */,
+				B3480234217E923400A0C69D /* MainViewController.swift in Sources */,
 				B3480232217E923400A0C69D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
