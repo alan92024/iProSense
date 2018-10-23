@@ -20,11 +20,30 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     let agePicker = UIPickerView()
     let genderPicker = UIPickerView()
     let handPicker = UIPickerView()
-    
+  
     let ageYearsData = [String](arrayLiteral: "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
     let ageMonthsData = [String](arrayLiteral: "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
     let genderData = [String](arrayLiteral: "Male", "Female")
     let handData = [String](arrayLiteral: "Left", "Right")
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+
+        agePicker.delegate = self
+        genderPicker.delegate = self
+        handPicker.delegate = self
+        
+        agePicker.dataSource = self
+        genderPicker.dataSource = self
+        handPicker.dataSource = self
+        
+        ageYearsField.inputView = agePicker
+        ageMonthsField.inputView = agePicker
+        genderField.inputView = genderPicker
+        handField.inputView = handPicker
+ 
+    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         if pickerView == agePicker {
@@ -61,13 +80,14 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         
         if pickerView == agePicker {
             
-            if component == 0 {
-                ageYearsField.text = ageYearsData[row]
-                
-            } else if component == 1 {
-                ageMonthsField.text = ageMonthsData[row]
-            }
+            let yearSelected = ageYearsData[pickerView.selectedRow(inComponent: 0)]
+            let monthSelected = ageMonthsData[pickerView.selectedRow(inComponent: 1)]
             
+            ageYearsField.text = yearSelected
+            ageMonthsField.text = monthSelected
+            
+            self.view.endEditing(true)
+   
         } else if pickerView == genderPicker {
             genderField.text = genderData[row]
             
@@ -75,24 +95,21 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             handField.text = handData[row]
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        createClientDataPickers()
-    }
     
-    func createClientDataPickers() {
- 
-        agePicker.delegate = self
-        genderPicker.delegate = self
-        handPicker.delegate = self
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        ageYearsField.inputView =  agePicker
-        ageMonthsField.inputView = agePicker
-        genderField.inputView = genderPicker
-        handField.inputView = handPicker
+        if pickerView == agePicker {
+            
+            if component == 0 {
+                return ageYearsData[row]
+            }
+            return ageMonthsData[row]
+        }
+        if pickerView == genderPicker {
+            return genderData[row]
+        }
+        
+        return handData[row]
     }
 
 
