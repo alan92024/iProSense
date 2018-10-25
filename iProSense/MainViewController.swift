@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var ageYearsField: UITextField!
     @IBOutlet weak var ageMonthsField: UITextField!
@@ -17,7 +17,8 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     @IBOutlet weak var childIDField: UITextField!
     @IBOutlet weak var diagnosisField: UITextField!
     
-    let agePicker = UIPickerView()
+    let yearPicker = UIPickerView()
+    let monthPicker = UIPickerView()
     let genderPicker = UIPickerView()
     let handPicker = UIPickerView()
   
@@ -26,92 +27,170 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     let genderData = [String](arrayLiteral: "Male", "Female")
     let handData = [String](arrayLiteral: "Left", "Right")
     
+    var activeTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
-        agePicker.delegate = self
-        genderPicker.delegate = self
-        handPicker.delegate = self
         
-        agePicker.dataSource = self
-        genderPicker.dataSource = self
-        handPicker.dataSource = self
+        initializeTextFields()
+        createToolBar()
         
-        ageYearsField.inputView = agePicker
-        ageMonthsField.inputView = agePicker
-        genderField.inputView = genderPicker
-        handField.inputView = handPicker
- 
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.keyboardWillChangeFrame(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if activeTextField == diagnosisField || activeTextField == childIDField {
+            view.frame.origin.y = -100
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        view.frame.origin.y = 0
+    }
+    
+    @objc func keyboardWillChangeFrame(notification: Notification) {
+    }
+    
+    deinit {
+        // Stop listening for keyboard hide/show events
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        activeTextField = textField
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        if pickerView == agePicker {
-            return 2
-        } else {
-            return 1
-        }
+        
+        return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        var dataCount = 0
+        switch pickerView {
         
-        if pickerView == agePicker {
+        case yearPicker:
+            return ageYearsData.count
             
-            if component == 0 {
-                dataCount = ageYearsData.count
-                
-            } else if component == 1 {
-                dataCount = ageMonthsData.count
-            }
+        case monthPicker:
+            return ageMonthsData.count
             
-        } else if pickerView == genderPicker {
-            dataCount = genderData.count
+        case genderPicker:
+            return genderData.count
             
-        } else if pickerView == handPicker{
-            dataCount = handData.count
-        }
+        case handPicker:
+            return handData.count
         
-        return dataCount
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        if pickerView == agePicker {
-            
-            let yearSelected = ageYearsData[pickerView.selectedRow(inComponent: 0)]
-            let monthSelected = ageMonthsData[pickerView.selectedRow(inComponent: 1)]
-            
-            ageYearsField.text = yearSelected
-            ageMonthsField.text = monthSelected
-            
-            self.view.endEditing(true)
-   
-        } else if pickerView == genderPicker {
-            genderField.text = genderData[row]
-            
-        } else if pickerView == handPicker {
-            handField.text = handData[row]
+        default:
+            return 0
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        if pickerView == agePicker {
+        switch pickerView {
             
-            if component == 0 {
-                return ageYearsData[row]
-            }
+        case yearPicker:
+            return ageYearsData[row]
+            
+        case monthPicker:
             return ageMonthsData[row]
-        }
-        if pickerView == genderPicker {
+            
+        case genderPicker:
             return genderData[row]
+            
+        case handPicker:
+            return handData[row]
+            
+        default:
+            return ""
         }
-        
-        return handData[row]
     }
-
-
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        switch pickerView {
+            
+        case yearPicker:
+            ageYearsField.text = ageYearsData[row]
+            
+        case monthPicker:
+            ageMonthsField.text = ageMonthsData[row]
+            
+        case genderPicker:
+            genderField.text = genderData[row]
+            
+        case handPicker:
+            handField.text = handData[row]
+            
+        default:
+            break
+        }
+    }
+    
+    func createToolBar() {
+        
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(MainViewController.dismissKeyboard))
+        
+        toolBar.setItems([doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        ageYearsField.inputAccessoryView = toolBar
+        ageMonthsField.inputAccessoryView = toolBar
+        genderField.inputAccessoryView = toolBar
+        handField.inputAccessoryView = toolBar
+    }
+    
+    func initializeTextFields () {
+        ageYearsField.inputAssistantItem.leadingBarButtonGroups.removeAll()
+        ageYearsField.inputAssistantItem.trailingBarButtonGroups.removeAll()
+        ageMonthsField.inputAssistantItem.leadingBarButtonGroups.removeAll()
+        ageMonthsField.inputAssistantItem.trailingBarButtonGroups.removeAll()
+        genderField.inputAssistantItem.leadingBarButtonGroups.removeAll()
+        genderField.inputAssistantItem.trailingBarButtonGroups.removeAll()
+        handField.inputAssistantItem.leadingBarButtonGroups.removeAll()
+        handField.inputAssistantItem.trailingBarButtonGroups.removeAll()
+        
+        yearPicker.delegate = self
+        monthPicker.delegate = self
+        genderPicker.delegate = self
+        handPicker.delegate = self
+        
+        yearPicker.dataSource = self
+        monthPicker.dataSource = self
+        genderPicker.dataSource = self
+        handPicker.dataSource = self
+        
+        childIDField.delegate = self
+        diagnosisField.delegate = self
+        
+        ageYearsField.inputView = yearPicker
+        ageMonthsField.inputView = monthPicker
+        genderField.inputView = genderPicker
+        handField.inputView = handPicker
+    }
 }
+
+
+
 
