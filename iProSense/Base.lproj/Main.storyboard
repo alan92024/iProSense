@@ -65,6 +65,15 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="months" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hzQ-pb-U5X">
+                                <rect key="frame" x="354" y="250" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="NGX-Ab-d2I"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="left/right" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eZp-AT-rmp">
                                 <rect key="frame" x="225" y="350" width="97" height="30"/>
                                 <constraints>
@@ -110,22 +119,40 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="months" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hzQ-pb-U5X">
-                                <rect key="frame" x="354" y="250" width="97" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQT-Z1-iRw">
+                                <rect key="frame" x="211" y="510" width="257" height="46"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="97" id="NGX-Ab-d2I"/>
+                                    <constraint firstAttribute="width" constant="257" id="OSF-RX-NBT"/>
                                 </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                            </textField>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="30"/>
+                                <state key="normal" title=" Clear Client Data ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearClientDataButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="afc-f8-p5Q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0h-gM-bCZ">
+                                <rect key="frame" x="380" y="323" width="44" height="31"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="17"/>
+                                <state key="normal" title=" Test ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="testButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jzD-Vj-nrH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sn6-KU-5Es" firstAttribute="leading" secondItem="yFc-5o-YrL" secondAttribute="trailing" constant="35" id="163-a2-WPC"/>
                             <constraint firstItem="sn6-KU-5Es" firstAttribute="top" secondItem="eZp-AT-rmp" secondAttribute="bottom" constant="20" id="2Mm-Jl-EYP"/>
                             <constraint firstItem="sk0-qV-ZoU" firstAttribute="top" secondItem="cVn-6L-0gR" secondAttribute="top" constant="167" id="2e3-r2-RkH"/>
+                            <constraint firstItem="ZQT-Z1-iRw" firstAttribute="top" secondItem="ce7-9T-bDf" secondAttribute="bottom" constant="30" id="5s9-KA-7Ac"/>
                             <constraint firstItem="tJc-c1-KQI" firstAttribute="leading" secondItem="cVn-6L-0gR" secondAttribute="leading" constant="66" id="65V-45-NeY"/>
+                            <constraint firstItem="k0h-gM-bCZ" firstAttribute="top" secondItem="hzQ-pb-U5X" secondAttribute="bottom" constant="43" id="6A7-tt-4oh"/>
                             <constraint firstItem="yFc-5o-YrL" firstAttribute="top" secondItem="tJc-c1-KQI" secondAttribute="bottom" constant="26" id="7xS-SD-YyB"/>
                             <constraint firstItem="isy-zM-TRJ" firstAttribute="leading" secondItem="yG3-ka-Bp2" secondAttribute="trailing" constant="35" id="9BD-ZL-XLA"/>
                             <constraint firstItem="dNA-a3-4h2" firstAttribute="top" secondItem="Fi2-Ab-R56" secondAttribute="bottom" constant="62" id="9ac-Bh-25H"/>
@@ -137,6 +164,8 @@
                             <constraint firstItem="hzQ-pb-U5X" firstAttribute="top" secondItem="dNA-a3-4h2" secondAttribute="bottom" constant="28" id="G2G-yg-8Op"/>
                             <constraint firstItem="hzQ-pb-U5X" firstAttribute="leading" secondItem="Zbc-es-v7I" secondAttribute="trailing" constant="32" id="LZc-63-nGI"/>
                             <constraint firstItem="sk0-qV-ZoU" firstAttribute="leading" secondItem="dNA-a3-4h2" secondAttribute="trailing" constant="174" id="MuJ-sl-ThI"/>
+                            <constraint firstItem="ZQT-Z1-iRw" firstAttribute="leading" secondItem="cVn-6L-0gR" secondAttribute="leading" constant="211" id="NNp-QR-EHF"/>
+                            <constraint firstItem="k0h-gM-bCZ" firstAttribute="leading" secondItem="eZp-AT-rmp" secondAttribute="trailing" constant="58" id="XY7-5n-PwQ"/>
                             <constraint firstItem="yFc-5o-YrL" firstAttribute="leading" secondItem="cVn-6L-0gR" secondAttribute="leading" constant="107" id="aU2-ib-qSb"/>
                             <constraint firstItem="Zbc-es-v7I" firstAttribute="top" secondItem="dNA-a3-4h2" secondAttribute="bottom" constant="28" id="ep1-l3-AEP"/>
                             <constraint firstItem="eZp-AT-rmp" firstAttribute="top" secondItem="isy-zM-TRJ" secondAttribute="bottom" constant="20" id="gz0-nk-HTm"/>

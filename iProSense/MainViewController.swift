@@ -29,18 +29,20 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     var activeTextField: UITextField!
     
+    @IBAction func clearClientDataButton(_ sender: Any) {
+    }
+    @IBAction func testButton(_ sender: Any) {
+    }
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        initializeTextFields()
+        super.viewDidLoad()
+        
+        initializeDataPicker()
         createToolBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.keyboardWillChangeFrame(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
     @objc func keyboardWillShow(notification: Notification) {
@@ -51,16 +53,13 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     @objc func keyboardWillHide(notification: Notification) {
         view.frame.origin.y = 0
+        activeTextField = nil
     }
-    
-    @objc func keyboardWillChangeFrame(notification: Notification) {
-    }
-    
+
     deinit {
         // Stop listening for keyboard hide/show events
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -69,11 +68,13 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+
+        dismissKeyboard()
         return true
     }
     
     @objc func dismissKeyboard() {
+        
         view.endEditing(true)
     }
     
@@ -150,7 +151,7 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(MainViewController.dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.dismissKeyboard))
         
         toolBar.setItems([doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
@@ -161,7 +162,7 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         handField.inputAccessoryView = toolBar
     }
     
-    func initializeTextFields () {
+    func initializeDataPicker() {
         ageYearsField.inputAssistantItem.leadingBarButtonGroups.removeAll()
         ageYearsField.inputAssistantItem.trailingBarButtonGroups.removeAll()
         ageMonthsField.inputAssistantItem.leadingBarButtonGroups.removeAll()
