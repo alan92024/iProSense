@@ -138,7 +138,6 @@
                             <constraint firstItem="hzQ-pb-U5X" firstAttribute="leading" secondItem="Zbc-es-v7I" secondAttribute="trailing" constant="32" id="LZc-63-nGI"/>
                             <constraint firstItem="sk0-qV-ZoU" firstAttribute="leading" secondItem="dNA-a3-4h2" secondAttribute="trailing" constant="174" id="MuJ-sl-ThI"/>
                             <constraint firstItem="yFc-5o-YrL" firstAttribute="leading" secondItem="cVn-6L-0gR" secondAttribute="leading" constant="107" id="aU2-ib-qSb"/>
-                            <constraint firstItem="yG3-ka-Bp2" firstAttribute="top" secondItem="Ohg-jx-Kkt" secondAttribute="bottom" constant="27" id="cG4-cc-vwX"/>
                             <constraint firstItem="Zbc-es-v7I" firstAttribute="top" secondItem="dNA-a3-4h2" secondAttribute="bottom" constant="28" id="ep1-l3-AEP"/>
                             <constraint firstItem="eZp-AT-rmp" firstAttribute="top" secondItem="isy-zM-TRJ" secondAttribute="bottom" constant="20" id="gz0-nk-HTm"/>
                             <constraint firstItem="isy-zM-TRJ" firstAttribute="top" secondItem="Zbc-es-v7I" secondAttribute="bottom" constant="20" id="h96-bg-BPp"/>
