@@ -24,15 +24,78 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
   
     let ageYearsData = [String](arrayLiteral: "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
     let ageMonthsData = [String](arrayLiteral: "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
-    let genderData = [String](arrayLiteral: "Male", "Female")
-    let handData = [String](arrayLiteral: "Left", "Right")
+    let genderData = [String](arrayLiteral: "M", "F")
+    let handData = [String](arrayLiteral: "L", "R")
     
     var activeTextField: UITextField!
+    var testData = false
+    var testID = ""
     
     @IBAction func clearClientDataButton(_ sender: Any) {
+        
+        ageYearsField.text = ""
+        ageMonthsField.text = ""
+        genderField.text = ""
+        handField.text = ""
+        diagnosisField.text = ""
     }
     @IBAction func testButton(_ sender: Any) {
+        
+        clearClientDataButton(self)
+        testData = true
+        let random = UInt32.random(in: 1...1000000)
+        testID = "test" + String(random)
+        isValidData()
     }
+    
+    func isValidData() {
+        
+        let alert = UIAlertController(title: "Input Error", message: "", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        if !testData {
+            
+            if let inputStr = ageYearsField.text, inputStr.isEmpty {
+                
+                alert.message = "Please enter age in years"
+                self.present(alert, animated: true, completion: nil)
+            }
+
+            if let inputStr = ageMonthsField.text, inputStr.isEmpty {
+                
+                alert.message = "Please enter age in months"
+                self.present(alert, animated: true, completion: nil)
+            }
+
+            if let inputStr = genderField.text, inputStr.isEmpty {
+                
+                alert.message = "Please enter gender"
+                self.present(alert, animated: true, completion: nil)
+            }
+
+            if let inputStr = handField.text, inputStr.isEmpty {
+                
+                alert.message = "Please enter handedness"
+                self.present(alert, animated: true, completion: nil)
+            }
+
+            if let inputStr = childIDField.text, inputStr.isEmpty {
+                
+                alert.message = "Please enter a unique child ID"
+                self.present(alert, animated: true, completion: nil)
+            }
+
+            if let inputStr = diagnosisField.text, inputStr.isEmpty {
+                
+                alert.message = "Please enter a diagnosis"
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+            testID = ageYearsField.text! + "." + ageMonthsField.text! + "_" + genderField.text!
+            + handField.text! + "_" + childIDField.text!
+        }
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
