@@ -21,15 +21,17 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     let monthPicker = UIPickerView()
     let genderPicker = UIPickerView()
     let handPicker = UIPickerView()
+    let diagnosisPicker = UIPickerView()
   
     let ageYearsData = [String](arrayLiteral: "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
     let ageMonthsData = [String](arrayLiteral: "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
-    let genderData = [String](arrayLiteral: "M", "F")
-    let handData = [String](arrayLiteral: "L", "R")
+    let genderData = [String](arrayLiteral: "Male", "Female")
+    let handData = [String](arrayLiteral: "Left", "Right")
+    let diagnosisData = [String](arrayLiteral: "TYP", "ADHD", "ASD", "DCD", "DD", "SLD", "SPD")
     
     var activeTextField: UITextField!
     var testData = false
-    var testID = ""
+    var dbID = ""
     
     @IBAction func clearClientDataButton(_ sender: Any) {
         
@@ -44,7 +46,7 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         clearClientDataButton(self)
         testData = true
         let random = UInt32.random(in: 1...1000000)
-        testID = "test" + String(random)
+        dbID = "test" + String(random)
         isValidData()
     }
     
@@ -91,8 +93,7 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
                 self.present(alert, animated: true, completion: nil)
             }
             
-            testID = ageYearsField.text! + "." + ageMonthsField.text! + "_" + genderField.text!
-            + handField.text! + "_" + childIDField.text!
+            dbID = ageYearsField.text! + "." + ageMonthsField.text! + "_" + genderField.text!             + handField.text! + "_" + childIDField.text! + "_" + diagnosisField.text!
         }
     }
     
@@ -109,12 +110,14 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     @objc func keyboardWillShow(notification: Notification) {
-        if activeTextField == diagnosisField || activeTextField == childIDField {
+        
+        if activeTextField == childIDField {
             view.frame.origin.y = -100
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
+        
         view.frame.origin.y = 0
         activeTextField = nil
     }
@@ -125,18 +128,41 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+   
+        switch textField {
         
-        activeTextField = textField
+        case ageYearsField:
+            ageYearsField.text = ageYearsData[0]
+            
+        case ageMonthsField:
+            ageMonthsField.text = ageMonthsData[0]
+            
+        case handField:
+            handField.text = handData[0]
+            
+        case genderField:
+            genderField.text = genderData[0]
+            
+        case diagnosisField:
+            diagnosisField.text = diagnosisData[0]
+            
+        case childIDField:
+            activeTextField = textField
+            
+        default:
+            return true
+        }
+        return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
-        dismissKeyboard()
+        dismissPicker()
         return true
     }
     
-    @objc func dismissKeyboard() {
+    @objc func dismissPicker() {
         
         view.endEditing(true)
     }
@@ -161,6 +187,9 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             
         case handPicker:
             return handData.count
+            
+        case diagnosisPicker:
+            return diagnosisData.count
         
         default:
             return 0
@@ -183,6 +212,9 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         case handPicker:
             return handData[row]
             
+        case diagnosisPicker:
+            return diagnosisData[row]
+            
         default:
             return ""
         }
@@ -204,6 +236,9 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         case handPicker:
             handField.text = handData[row]
             
+        case diagnosisPicker:
+            diagnosisField.text = diagnosisData[row]
+            
         default:
             break
         }
@@ -214,7 +249,7 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.dismissPicker))
         
         toolBar.setItems([doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
@@ -223,9 +258,11 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         ageMonthsField.inputAccessoryView = toolBar
         genderField.inputAccessoryView = toolBar
         handField.inputAccessoryView = toolBar
+        diagnosisField.inputAccessoryView = toolBar
     }
     
     func initializeDataPicker() {
+        
         ageYearsField.inputAssistantItem.leadingBarButtonGroups.removeAll()
         ageYearsField.inputAssistantItem.trailingBarButtonGroups.removeAll()
         ageMonthsField.inputAssistantItem.leadingBarButtonGroups.removeAll()
@@ -234,24 +271,33 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         genderField.inputAssistantItem.trailingBarButtonGroups.removeAll()
         handField.inputAssistantItem.leadingBarButtonGroups.removeAll()
         handField.inputAssistantItem.trailingBarButtonGroups.removeAll()
+        diagnosisField.inputAssistantItem.leadingBarButtonGroups.removeAll()
+        diagnosisField.inputAssistantItem.trailingBarButtonGroups.removeAll()
         
         yearPicker.delegate = self
         monthPicker.delegate = self
         genderPicker.delegate = self
         handPicker.delegate = self
+        diagnosisPicker.delegate = self
         
         yearPicker.dataSource = self
         monthPicker.dataSource = self
         genderPicker.dataSource = self
         handPicker.dataSource = self
+        diagnosisPicker.dataSource = self
         
-        childIDField.delegate = self
+        ageYearsField.delegate = self
+        ageMonthsField.delegate = self
+        genderField.delegate = self
+        handField.delegate = self
         diagnosisField.delegate = self
+        childIDField.delegate = self
         
         ageYearsField.inputView = yearPicker
         ageMonthsField.inputView = monthPicker
         genderField.inputView = genderPicker
         handField.inputView = handPicker
+        diagnosisField.inputView = diagnosisPicker
     }
 }
 
