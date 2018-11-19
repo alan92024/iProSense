@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
@@ -93,7 +94,32 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
                 self.present(alert, animated: true, completion: nil)
             }
             
-            dbID = ageYearsField.text! + "." + ageMonthsField.text! + "_" + genderField.text!             + handField.text! + "_" + childIDField.text! + "_" + diagnosisField.text!
+            dbID = ageYearsField.text! + "." + ageMonthsField.text! + "_" + genderField.text! + handField.text! + "_" + childIDField.text! + "_" + diagnosisField.text!
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let newClient = NSEntityDescription.insertNewObject(forEntityName: "ClientData", into: context)
+        
+        newClient.setValue(dbID, forKey: "dbID")
+        newClient.setValue(ageYearsField.text! + "." + ageMonthsField.text!, forKey: "age")
+        newClient.setValue(genderField.text, forKey: "gender")
+        newClient.setValue(handField.text, forKey: "hand")
+        newClient.setValue(diagnosisField.text, forKey: "diagnosis")
+        newClient.setValue(childIDField.text, forKey: "childID")
+        
+        do {
+            
+            try context.save()
+            
+            print("Saved")
+        } catch {
+            
+            alert.title = "Save data error"
+            alert.message = "Save ClientData failed - please try again"
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
